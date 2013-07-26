@@ -29,12 +29,10 @@ class Bundle(Blueprint, IPlugin):
 
 class SystemBundle(object):
 
-    __slots__ = ['app', 'debug', 'manager', 'name_folder_bundle',
-                 'template_folder', 'static_folder']
+    __slots__ = ['app', 'debug', 'manager', 'name_folder_bundle']
 
     def __init__(self, name, debug=False, config_object=None,
-                 name_folder_bundle='bundle', template_folder='template',
-                 static_folder='static'):
+                 name_folder_bundle='bundle'):
         self.app = Flask(name)
         self.debug = debug
         self.app.config.from_object(config_object)

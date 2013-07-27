@@ -44,7 +44,7 @@ class SystemBundle(object):
             name, extension = splitext(bundle_name)
             if extension == '.py' and not name == init:
                 bundles[bundle_name] = load_module(bundle_name, f, filename, descr)
-        self.register_blueprint(bundles_list)
+        self.register_blueprint(bundles)
 
     def register_blueprint(self, bundles_list):
         for bundle in bundles_list.iteritems():

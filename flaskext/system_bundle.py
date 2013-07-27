@@ -11,7 +11,8 @@
 """
 from distutils.sysconfig import get_python_lib
 from os.path import join as joinpath
-from os import (listdir, exists, isdir, splitext)
+from os.path import (exists, isdir, splitext)
+from os import listdir
 from imp import (find_module, load_module)
 from flask import Flask
 
@@ -31,24 +32,25 @@ class SystemBundle(object):
             self.bundle_namespace = joinpath(get_python_lib(), bundle_namespace)
         self.test = test
 
-    def load_module(self):
+    def load_module(self, exclude=list()):
         init = '__init__.py'
         bundles_list = listdir(self.bundle_namespace)
         bundles = dict()
 
         for bundle_name in bundles_list:
-            f, filename, descr = find_module(bundle_name, [self.bundle_namespace])
-            if isdir(joinpath(self.bundle_namespace, bundle_name)) and \
-                exists(joinpath(self.bundle_namespace, bundle_name, init)):
-                bundles[bundle_name] = load_module(bundle_name, f, filename, descr)
-            name, extension = splitext(bundle_name)
-            if extension == '.py' and not name == init:
-                bundles[bundle_name] = load_module(bundle_name, f, filename, descr)
-        self.register_blueprint(bundles)
+            if not bundle_name in exclude:
+                f, filename, descr = find_module(bundle_name, [self.bundle_namespace])
+                if isdir(joinpath(self.bundle_namespace, bundle_name)) and \
+                    exists(joinpath(self.bundle_namespace, bundle_name, init)):
+                    bundles[bundle_name] = load_module(bundle_name, f, filename, descr)
+                name, extension = splitext(bundle_name)
+                if extension == '.py' and not name == init:
+                    bundles[bundle_name] = load_module(bundle_name, f, filename, descr)
+        self.register_bundle(bundles)
 
-    def register_blueprint(self, bundles_list):
-        for bundle in bundles_list.iteritems():
-            self.app.register_blueprint(getattr(bundle, 'bundle'))
+    def register_bundle(self, bundles_list):
+        for bundle_name, bundle in bundles_list.iteritems():
+            self.app.register_blueprint(getattr(bundle, 'module'))
 
     def load_app(self):
         if self.test:

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-    flaskext.system_bundle
+    flaskext.bundle_system
     ~~~~~~~~~~~~~~~~~~~~~~
 
     Blueprints function in class, for programming with
@@ -17,7 +17,7 @@ from imp import (find_module, load_module)
 from flask import Flask
 
 
-class SystemBundle(object):
+class BundleSystem(object):
 
     __slots__ = ['app', 'debug', 'bundle_namespace', 'test']
 
@@ -50,7 +50,13 @@ class SystemBundle(object):
 
     def register_bundle(self, bundles_list):
         for bundle_name, bundle in bundles_list.iteritems():
-            self.app.register_blueprint(getattr(bundle, 'module'))
+            try:
+                blueprint = getattr(bundle, 'bundle', None)
+                kwargs = getattr(bundle, 'bundle_config', dict())
+                if blueprint:
+                    self.app.register_blueprint(blueprint, **kwargs)
+            except:
+                pass
 
     def load_app(self):
         if self.test:

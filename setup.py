@@ -1,5 +1,5 @@
 """
-flask-system-bundle
+flask-bundle_system
 -------------------
 
 
@@ -16,7 +16,7 @@ from setuptools import setup
 
 
 setup(
-    name='flask-system-bundle',
+    name='flask-bundle_system',
     version='0.1',
     url='',
     license='BSD',

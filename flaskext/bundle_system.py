@@ -19,7 +19,7 @@ from flask import Flask
 
 class BundleSystem(object):
 
-    __slots__ = ['app', 'debug', 'bundle_namespace', 'test']
+    __slots__ = ['app', 'debug', 'context', 'bundle_namespace', 'test']
 
     def __init__(self, name, debug=False, config_object=None,
                  bundle_namespace='bundle', test=False):
@@ -61,6 +61,9 @@ class BundleSystem(object):
     def load_app(self):
         if self.test:
             self.app.config['TESTING'] = True
-            return self.app.test_client()
-        self.app.run(debug=self.debug)
+            ctx = self.app.test_request_context()
+            ctx.push()
+            return ctx.app.test_client()
+        self.app = self.app.run(debug=self.debug)
+        self.context = self.app.app_context()
 

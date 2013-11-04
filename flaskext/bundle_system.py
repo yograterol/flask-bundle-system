@@ -4,66 +4,84 @@
     ~~~~~~~~~~~~~~~~~~~~~~
 
     Blueprints function in class, for programming with
-    Bundle.
+    Blueprints as Bundles.
 
     :copyright: (c) 2013 by yograterol.
     :license: BSD, see LICENSE for more details.
 """
-from distutils.sysconfig import get_python_lib
 from os.path import join as joinpath
-from os.path import (exists, isdir, splitext)
+from os.path import (isdir, isfile, splitext)
 from os import listdir
 from imp import (find_module, load_module)
-from flask import Flask
+
+
+class IsNotPathBundle(Exception):
+
+    def __repr__(self):
+        print "The namespace_bundle value is not a valid path."
 
 
 class BundleSystem(object):
 
-    __slots__ = ['app', 'debug', 'context', 'bundle_namespace', 'test']
+    __slots__ = ['app', 'namespace_bundle', 'bundle_name']
 
-    def __init__(self, name, debug=False, config_object=None,
-                 bundle_namespace='bundle', test=False):
-        self.app = Flask(name)
-        self.debug = debug
-        self.app.config.from_object(config_object)
-        if isdir(bundle_namespace):
-            self.bundle_namespace = bundle_namespace
+    def __init__(self, app, namespace_bundle=None, bundle_name='bundle'):
+        self.app = app
+        self.namespace_bundle = namespace_bundle
+        if isdir(namespace_bundle):
+            self.namespace_bundle = namespace_bundle
         else:
-            self.bundle_namespace = joinpath(get_python_lib(), bundle_namespace)
-        self.test = test
+            raise IsNotPathBundle()
+        self.load_module()
 
-    def load_module(self, exclude=list()):
-        init = '__init__.py'
-        bundles_list = listdir(self.bundle_namespace)
-        bundles = dict()
-
-        for bundle_name in bundles_list:
-            if not bundle_name in exclude:
-                f, filename, descr = find_module(bundle_name, [self.bundle_namespace])
-                if isdir(joinpath(self.bundle_namespace, bundle_name)) and \
-                    exists(joinpath(self.bundle_namespace, bundle_name, init)):
-                    bundles[bundle_name] = load_module(bundle_name, f, filename, descr)
-                name, extension = splitext(bundle_name)
-                if extension == '.py' and not name == init:
-                    bundles[bundle_name] = load_module(bundle_name, f, filename, descr)
-        self.register_bundle(bundles)
-
-    def register_bundle(self, bundles_list):
-        for bundle_name, bundle in bundles_list.iteritems():
+    def register_bundle(self, bundles_dict):
+        """
+        Get the variables bundle and register in the Flask App.
+        :params:
+            bundles_dict - Dictionary with all bundles (Blueprints)
+        """
+        for bundle_name, bundle in bundles_dict.iteritems():
             try:
-                blueprint = getattr(bundle, 'bundle', None)
-                kwargs = getattr(bundle, 'bundle_config', dict())
+                # Try get bundle variable and bundle_config variable
+                blueprint = getattr(bundle, bundle_name, None)
+                kwargs = getattr(bundle, bundle_name + '_config', dict())
                 if blueprint:
+                    # Register the blueprint
                     self.app.register_blueprint(blueprint, **kwargs)
             except:
-                pass
+                continue
 
-    def load_app(self):
-        if self.test:
-            self.app.config['TESTING'] = True
-            ctx = self.app.test_request_context()
-            ctx.push()
-            return ctx.app.test_client()
-        self.app = self.app.run(debug=self.debug)
-        self.context = self.app.app_context()
+    def load_module(self, folder=None):
+        """
+        Method recursive
+        Find all files in the current project path, and try import the bundle
+        name.
+        :params:
+            folder - The absolute path of the folder to find.
+        """
+        if not folder:
+            folder = self.namespace_bundle
 
+        bundles_list_dir = listdir(folder)
+        bundles = dict()
+
+        for bundle_name in bundles_list_dir:
+            # Join the path folder and bundle name file for check if is folder
+            # or file.
+            abs_path = joinpath(folder, bundle_name)
+            if isdir(abs_path):
+                self.load_module(abs_path)
+
+            if isfile(abs_path):
+                try:
+                    # Split the bundle name, for only check python files.
+                    name, extension = splitext(bundle_name)
+                    if extension == '.py':
+                        f, filename, descr = find_module(name, [folder, ])
+                        bundles[bundle_name] = load_module(name, f,
+                                                           filename, descr)
+                except ImportError:
+                    continue
+        # After of check all bundles name in the current "folder", passing
+        # bundles dict as parameter to method register_bundle.
+        self.register_bundle(bundles)

@@ -1,42 +1,48 @@
 import unittest
-from os import getcwd
-from flask import url_for
+import os
+from flask import url_for, Flask
 from flaskext.bundle_system import BundleSystem
 
 
 class SystemBundleTest(unittest.TestCase):
 
     def setUp(self):
-        self.web = BundleSystem('test', True, None, getcwd(), True)
-        self.web.load_module(['test1.py'])
-        self.app = self.web.load_app()
+        self.app = Flask(__name__)
+        path = os.path.realpath(__file__)
+        BundleSystem(self.app, os.path.dirname(path))
+        for rule in self.app.url_map.iter_rules():
+            print rule
+        self.app.config['TESTING'] = True
+        ctx = self.app.test_request_context()
+        ctx.push()
+        self.web = ctx.app.test_client()
 
     def test_url_for(self):
         url_test = url_for('bundle_test1.test')
         assert '/test/' in url_test
 
     def test_bundle(self):
-        rv = self.app.get(url_for('bundle_test.test'))
-        assert 'Is a test' in rv.data
+        rv = self.web.get(url_for('bundle_test.test'))
+        assert 'Is a test' in rv.data, rv.data
 
     def test_bundle_post(self):
-        rv = self.app.post(url_for('bundle_test.test'))
+        rv = self.web.post(url_for('bundle_test.test'))
         assert 'Is a test' in rv.data
 
     def test_bundle_with_url_prefix(self):
-        rv = self.app.get(url_for('bundle_test1.test'))
+        rv = self.web.get(url_for('bundle_test1.test'))
         assert 'Is a test' in rv.data
 
     def test_bundle_with_url_prefix_post(self):
-        rv = self.app.post(url_for('bundle_test1.test'))
+        rv = self.web.post(url_for('bundle_test1.test'))
         assert 'Is a test' in rv.data
 
     def test_bundle_not_found(self):
-        rv = self.app.get('/not-found')
+        rv = self.web.get('/not-found')
         assert not 'Is a test' in rv.data
 
     def test_bundle_not_found_post(self):
-        rv = self.app.post('/not-found')
+        rv = self.web.post('/not-found')
         assert not 'Is a test' in rv.data
 
 if __name__ == '__main__':

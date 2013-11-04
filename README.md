@@ -6,7 +6,7 @@ Install
 =======
 
 ```
-pip install http://github.com/yograterol/flask-bundle_system/zipball/master
+pip install http://github.com/yograterol/flask-bundle-system/zipball/master
 ```
 
 Use

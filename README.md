@@ -11,7 +11,7 @@ pip install http://github.com/yograterol/flask-bundle_system/zipball/master
 
 Use
 ===
-In the blueprint files or modules files.
+In the blueprint files or modules files:
 
 ```
 from flask import Blueprint
@@ -20,7 +20,7 @@ from flask import Blueprint
 bundle = Blueprint(...)
 ```
 
-In the main file
+In the main file:
 
 ```python
 from flaskext.bundle_system import BundleSystem

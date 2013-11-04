@@ -10,8 +10,6 @@ class SystemBundleTest(unittest.TestCase):
         self.app = Flask(__name__)
         path = os.path.realpath(__file__)
         BundleSystem(self.app, os.path.dirname(path))
-        for rule in self.app.url_map.iter_rules():
-            print rule
         self.app.config['TESTING'] = True
         ctx = self.app.test_request_context()
         ctx.push()

@@ -36,4 +36,11 @@ BundleSystem(app, path)
 Test
 ====
 
+```
 python setup.py nosetests
+```
+
+Travis CI
+=========
+
+[![Build Status](https://travis-ci.org/yograterol/flask-bundle_system.png?branch=master)](https://travis-ci.org/yograterol/flask-bundle_system)

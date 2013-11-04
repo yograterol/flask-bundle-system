@@ -1,5 +1,5 @@
 ====================
-flask-bundle_system
+flask-bundle-system
 ====================
 
 Install
@@ -43,4 +43,4 @@ python setup.py nosetests
 Travis CI
 =========
 
-[![Build Status](https://travis-ci.org/yograterol/flask-bundle_system.png?branch=master)](https://travis-ci.org/yograterol/flask-bundle_system)
+[![Build Status](https://travis-ci.org/yograterol/flask-bundle-system.png?branch=master)](https://travis-ci.org/yograterol/flask-bundle-system)

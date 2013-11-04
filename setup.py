@@ -1,5 +1,5 @@
 """
-flask-bundle_system
+flask-bundle-system
 -------------------
 
 
@@ -7,18 +7,18 @@ flask-bundle_system
 Links
 `````
 
-* `documentation <http://packages.python.org/flask-system-bundle>`_
+* `documentation <http://packages.python.org/flask-bundle-system>`_
 * `development version
-  <http://github.com/yograterol/flask-bundle_system/zipball/master>`_
+  <http://github.com/yograterol/flask-bundle-system/zipball/master>`_
 
 """
 from setuptools import setup
 
 
 setup(
-    name='flask-bundle_system',
+    name='flask-bundle-system',
     version='0.1',
-    url='https://github.com/yograterol/flask-bundle_system',
+    url='https://github.com/yograterol/flask-bundle-system',
     license='BSD',
     author='yograterol',
     author_email='yograterol@fedoraproject.org',

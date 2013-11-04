@@ -23,11 +23,12 @@ class IsNotPathBundle(Exception):
 
 class BundleSystem(object):
 
-    __slots__ = ['app', 'namespace_bundle', 'bundle_name']
+    __slots__ = ['app', 'namespace_bundle', 'bundle_var_name']
 
-    def __init__(self, app, namespace_bundle=None, bundle_name='bundle'):
+    def __init__(self, app, namespace_bundle=None, bundle_var_name='bundle'):
         self.app = app
         self.namespace_bundle = namespace_bundle
+        self.bundle_var_name = bundle_var_name
         if isdir(namespace_bundle):
             self.namespace_bundle = namespace_bundle
         else:
@@ -43,8 +44,9 @@ class BundleSystem(object):
         for bundle_name, bundle in bundles_dict.iteritems():
             try:
                 # Try get bundle variable and bundle_config variable
-                blueprint = getattr(bundle, bundle_name, None)
-                kwargs = getattr(bundle, bundle_name + '_config', dict())
+                blueprint = getattr(bundle, self.bundle_var_name, None)
+                kwargs = getattr(bundle, self.bundle_var_name + '_config',
+                                 dict())
                 if blueprint:
                     # Register the blueprint
                     self.app.register_blueprint(blueprint, **kwargs)

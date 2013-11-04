@@ -9,7 +9,7 @@ Links
 
 * `documentation <http://packages.python.org/flask-system-bundle>`_
 * `development version
-  <http://github.com/USERNAME/REPOSITORY/zipball/master#egg=flask-system-bundle-dev>`_
+  <http://github.com/yograterol/flask-bundle_system/zipball/master>`_
 
 """
 from setuptools import setup
@@ -18,11 +18,11 @@ from setuptools import setup
 setup(
     name='flask-bundle_system',
     version='0.1',
-    url='',
+    url='https://github.com/yograterol/flask-bundle_system',
     license='BSD',
     author='yograterol',
     author_email='yograterol@fedoraproject.org',
-    description='Flask extension for work with bundles',
+    description='Flask extension for work with blueprints as bundles',
     long_description=__doc__,
     packages=['flaskext'],
     namespace_packages=['flaskext'],

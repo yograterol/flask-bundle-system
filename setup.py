@@ -22,6 +22,7 @@ setup(
     license='BSD',
     author='yograterol',
     author_email='yograterol@fedoraproject.org',
+    url="http://www.yograterol.me",
     description='Flask extension for work with blueprints as bundles',
     long_description=__doc__,
     packages=['flask_bundlesystem'],

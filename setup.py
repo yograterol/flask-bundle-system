@@ -24,8 +24,7 @@ setup(
     author_email='yograterol@fedoraproject.org',
     description='Flask extension for work with blueprints as bundles',
     long_description=__doc__,
-    packages=['flaskext'],
-    namespace_packages=['flaskext'],
+    packages=['flask_bundlesystem'],
     zip_safe=False,
     platforms='any',
     install_requires=[

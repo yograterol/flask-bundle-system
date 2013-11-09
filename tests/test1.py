@@ -1,7 +1,7 @@
 import unittest
 import os
 from flask import url_for, Flask
-from flaskext.bundle_system import BundleSystem
+from flask_bundlesystem import BundleSystem
 
 
 class SystemBundleTest(unittest.TestCase):

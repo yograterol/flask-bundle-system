@@ -1,9 +1,9 @@
-.. System Bundle documentation master file, created by
+.. Bundle System documentation master file, created by
    sphinx-quickstart on Thu Jul 25 15:03:55 2013.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to System Bundle's documentation!
+Welcome to Bundle System's documentation!
 =========================================
 
 Contents:

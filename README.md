@@ -23,7 +23,7 @@ bundle = Blueprint(...)
 In the main file:
 
 ```python
-from flaskext.bundle_system import BundleSystem
+from flask_bundlesystem import BundleSystem
 
 # Define the Flask App
 app = Flask(__name__)

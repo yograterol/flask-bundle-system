@@ -2,6 +2,8 @@
 flask-bundle-system
 ====================
 
+Work on Python 2.6 and Python 2.7.
+
 Install
 =======
 

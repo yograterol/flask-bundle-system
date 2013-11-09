@@ -18,11 +18,11 @@ from setuptools import setup
 setup(
     name='flask-bundle-system',
     version='0.1',
-    url='https://github.com/yograterol/flask-bundle-system',
     license='BSD',
     author='yograterol',
     author_email='yograterol@fedoraproject.org',
     url="http://www.yograterol.me",
+    download_url='https://github.com/yograterol/flask-bundle-system',
     description='Flask extension for work with blueprints as bundles',
     long_description=__doc__,
     packages=['flask_bundlesystem'],

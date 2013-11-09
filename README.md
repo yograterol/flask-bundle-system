@@ -9,6 +9,10 @@ Install
 
 ```
 pip install http://github.com/yograterol/flask-bundle-system/zipball/master
+
+or
+
+pip install flask-bundle-system
 ```
 
 Use

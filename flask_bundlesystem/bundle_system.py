@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-    flaskext.bundle_system
+    flask_bundlesystem
     ~~~~~~~~~~~~~~~~~~~~~~
 
     Blueprints function in class, for programming with

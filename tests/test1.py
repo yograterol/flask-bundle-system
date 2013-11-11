@@ -9,7 +9,7 @@ class SystemBundleTest(unittest.TestCase):
     def setUp(self):
         self.app = Flask(__name__)
         path = os.path.realpath(__file__)
-        BundleSystem(self.app, os.path.dirname(path))
+        BundleSystem(os.path.dirname(path))
         self.app.config['TESTING'] = True
         ctx = self.app.test_request_context()
         ctx.push()

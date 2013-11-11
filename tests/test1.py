@@ -9,11 +9,11 @@ class SystemBundleTest(unittest.TestCase):
     def setUp(self):
         self.app = Flask(__name__)
         path = os.path.realpath(__file__)
-        BundleSystem(os.path.dirname(path))
         self.app.config['TESTING'] = True
         ctx = self.app.test_request_context()
         ctx.push()
         self.web = ctx.app.test_client()
+        BundleSystem(os.path.dirname(path))
 
     def test_url_for(self):
         url_test = url_for('bundle_test1.test')

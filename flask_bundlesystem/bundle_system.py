@@ -17,10 +17,9 @@ from flask import current_app
 
 class BundleSystem(object):
 
-    __slots__ = ['app', 'namespace_bundle', 'bundle_var_name']
+    __slots__ = ['namespace_bundle', 'bundle_var_name']
 
     def __init__(self, namespace_bundle=None, bundle_var_name='bundle'):
-        self.app = current_app
         self.namespace_bundle = namespace_bundle
         self.bundle_var_name = bundle_var_name
         if isdir(namespace_bundle):
@@ -42,7 +41,7 @@ class BundleSystem(object):
                              dict())
             if blueprint:
                 # Register the blueprint
-                self.app.register_blueprint(blueprint, **kwargs)
+                current_app.register_blueprint(blueprint, **kwargs)
 
     def load_module(self, folder=None):
         """

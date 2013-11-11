@@ -8,16 +8,15 @@ class SystemBundleTest(unittest.TestCase):
 
     def setUp(self):
         # Set a Flask App
-        self.app = Flask(__name__)
+        app = Flask(__name__)
         path = os.path.realpath(__file__)
-        self.app.config['TESTING'] = True
+        app.config['TESTING'] = True
 
-        # Call to extension for register blueprints
-        BundleSystem(os.path.dirname(path))
-
-        ctx = self.app.test_request_context()
-        ctx.push()
-        self.web = ctx.app.test_client()
+        with app.test_request_context() as ctx:
+            # Call to extension for register blueprints
+            BundleSystem(os.path.dirname(path))
+            ctx.push()
+            self.web = ctx.app.test_client()
 
     def test_url_for(self):
         url_test = url_for('bundle_test1.test')

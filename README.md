@@ -35,8 +35,10 @@ from flask_bundlesystem import BundleSystem
 app = Flask(__name__)
 # Get the current main dir path for the app.
 path = ...
-# Register all blueprint as bundles.
-BundleSystem(app, path)
+
+with app.app_context():
+    # Register all blueprint as bundles.
+    BundleSystem(path)
 ```
 
 Test

@@ -17,7 +17,7 @@ from setuptools import setup
 
 setup(
     name='flask-bundle-system',
-    version='0.1',
+    version='0.2',
     license='BSD',
     author='yograterol',
     author_email='yograterol@fedoraproject.org',

@@ -9,8 +9,7 @@
     :copyright: (c) 2013 by yograterol.
     :license: BSD, see LICENSE for more details.
 """
-from os.path import join as joinpath
-from os.path import (isdir, isfile, splitext)
+from os.path import (isdir, isfile, splitext, join)
 from os import listdir
 from imp import (find_module, load_module)
 from flask import current_app
@@ -62,7 +61,7 @@ class BundleSystem(object):
         for bundle_name in bundles_list_dir:
             # Join the path folder and bundle name file for check if is folder
             # or file.
-            abs_path = joinpath(folder, bundle_name)
+            abs_path = join(folder, bundle_name)
             if isdir(abs_path):
                 self.load_module(abs_path)
 

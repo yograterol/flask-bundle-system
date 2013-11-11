@@ -35,13 +35,6 @@ class SystemBundleTest(unittest.TestCase):
         rv = self.web.post(url_for('bundle_test1.test'))
         assert 'Is a test' in rv.data
 
-    def test_bundle_not_found(self):
-        rv = self.web.get('/not-found')
-        assert not 'Is a test' in rv.data
-
-    def test_bundle_not_found_post(self):
-        rv = self.web.post('/not-found')
-        assert not 'Is a test' in rv.data
 
 if __name__ == '__main__':
     unittest.main()

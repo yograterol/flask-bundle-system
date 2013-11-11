@@ -13,26 +13,21 @@ from os.path import join as joinpath
 from os.path import (isdir, isfile, splitext)
 from os import listdir
 from imp import (find_module, load_module)
-
-
-class IsNotPathBundle(Exception):
-
-    def __repr__(self):
-        print "The namespace_bundle value is not a valid path."
+from flask import current_app
 
 
 class BundleSystem(object):
 
     __slots__ = ['app', 'namespace_bundle', 'bundle_var_name']
 
-    def __init__(self, app, namespace_bundle=None, bundle_var_name='bundle'):
-        self.app = app
+    def __init__(self, namespace_bundle=None, bundle_var_name='bundle'):
+        self.app = current_app
         self.namespace_bundle = namespace_bundle
         self.bundle_var_name = bundle_var_name
         if isdir(namespace_bundle):
             self.namespace_bundle = namespace_bundle
         else:
-            raise IsNotPathBundle()
+            raise Exception("The namespace_bundle value is not a valid path.")
         self.load_module()
 
     def register_bundle(self, bundles_dict):

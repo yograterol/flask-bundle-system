@@ -37,16 +37,13 @@ class BundleSystem(object):
             bundles_dict - Dictionary with all bundles (Blueprints)
         """
         for bundle_name, bundle in bundles_dict.iteritems():
-            try:
-                # Try get bundle variable and bundle_config variable
-                blueprint = getattr(bundle, self.bundle_var_name, None)
-                kwargs = getattr(bundle, self.bundle_var_name + '_config',
-                                 dict())
-                if blueprint:
-                    # Register the blueprint
-                    self.app.register_blueprint(blueprint, **kwargs)
-            except:
-                continue
+            # Try get bundle variable and bundle_config variable
+            blueprint = getattr(bundle, self.bundle_var_name, None)
+            kwargs = getattr(bundle, self.bundle_var_name + '_config',
+                             dict())
+            if blueprint:
+                # Register the blueprint
+                self.app.register_blueprint(blueprint, **kwargs)
 
     def load_module(self, folder=None):
         """
